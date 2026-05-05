@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小说世界 D&D</title>
+    <script src="/static/vendor/vis-network.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <h1>小说世界 D&D</h1>
+            <div class="header-actions">
+                <select id="novel-select" class="btn">
+                    <option value="">选择小说...</option>
+                </select>
+                <label id="upload-btn" class="btn upload">上传小说
+                    <input type="file" id="novel-file" accept=".txt" hidden>
+                </label>
+            </div>
+        </header>
+
+        <!-- Upload progress -->
+        <div id="upload-progress" class="hidden">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
+            <span id="progress-text">正在提取人物信息...</span>
+        </div>
+
+        <!-- Main content: 3-column layout -->
+        <div id="main-content" class="hidden">
+            <!-- Left: Chapter Timeline -->
+            <div id="timeline-panel">
+                <h2>章节时间线</h2>
+                <div id="chapter-list"></div>
+                <div id="timeline-actions">
+                    <button id="start-game-btn" class="btn primary" onclick="openIdentitySelection()">开始游戏</button>
+                </div>
+            </div>
+
+            <!-- Center: Graph -->
+            <div id="graph-panel">
+                <h2>人物关系图谱</h2>
+                <div id="graph-container"></div>
+            </div>
+
+            <!-- Right: Character Panel -->
+            <div id="character-panel">
+                <h2>人物列表</h2>
+                <div id="character-list"></div>
+            </div>
+        </div>
+
+        <!-- Welcome screen (when no novel loaded) -->
+        <div id="welcome-screen">
+            <div class="welcome-content">
+                <h2>欢迎来到小说世界</h2>
+                <p>上传一本小说的 TXT 文件，系统将自动提取人物、关系和场景，构建可交互的小说世界。</p>
+                <label class="btn primary large">上传小说开始
+                    <input type="file" id="novel-file-welcome" accept=".txt" hidden>
+                </label>
+                <div id="existing-novels" class="hidden">
+                    <p class="divider">或选择已有小说</p>
+                    <div id="novel-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Identity Selection Modal -->
+        <div id="identity-modal" class="modal hidden">
+            <div class="modal-content wide">
+                <h2>选择你的身份</h2>
+                <p class="modal-subtitle" id="identity-chapter-info"></p>
+                <div class="modal-body">
+                    <!-- Mode tabs -->
+                    <div class="mode-tabs">
+                        <button class="mode-tab active" data-mode="possess">夺舍角色</button>
+                        <button class="mode-tab" data-mode="custom">杜撰身份</button>
+                    </div>
+
+                    <!-- Possess mode -->
+                    <div id="possess-panel" class="mode-panel">
+                        <div id="possess-char-list"></div>
+                        <div id="possess-char-detail" class="hidden">
+                            <h3 id="possess-char-name"></h3>
+                            <div id="possess-char-info"></div>
+                        </div>
+                    </div>
+
+                    <!-- Custom mode -->
+                    <div id="custom-panel" class="mode-panel hidden">
+                        <input type="text" id="custom-name" placeholder="你的名字">
+                        <textarea id="custom-background" placeholder="你的背景故事（可选）"></textarea>
+                        <input type="text" id="custom-abilities" placeholder="你的能力（逗号分隔，可选）">
+                        <div class="form-hint">你将以外来者的身份进入小说世界，原著角色不认识你。</div>
+                    </div>
+                </div>
+
+                <!-- Scene selection -->
+                <div id="scene-section">
+                    <h3>选择场景</h3>
+                    <div id="scene-list"></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="identity-cancel" class="btn">取消</button>
+                    <button id="identity-confirm" class="btn primary">进入世界</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Chat Panel -->
+        <div id="chat-panel" class="hidden">
+            <div id="chat-header">
+                <div id="chat-header-info">
+                    <h2 id="chat-title">游戏中</h2>
+                    <span id="chat-subtitle"></span>
+                </div>
+                <div class="chat-header-actions">
+                    <button id="chat-memory-btn" class="btn small">记忆面板</button>
+                    <button id="chat-close" class="btn small">结束</button>
+                </div>
+            </div>
+            <div id="chat-messages"></div>
+            <div id="chat-input-area">
+                <input type="text" id="chat-input" placeholder="输入你的行动...">
+                <button id="chat-send" class="btn primary">行动</button>
+            </div>
+        </div>
+
+        <!-- Memory Panel (overlay) -->
+        <div id="memory-panel" class="hidden">
+            <div class="memory-header">
+                <h3>角色记忆</h3>
+                <button id="memory-close" class="btn small">关闭</button>
+            </div>
+            <div id="memory-content"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/graph.js"></script>
+    <script src="/static/js/character.js"></script>
+    <script src="/static/js/timeline.js"></script>
+    <script src="/static/js/identity.js"></script>
+    <script src="/static/js/scene.js"></script>
+    <script src="/static/js/chat.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

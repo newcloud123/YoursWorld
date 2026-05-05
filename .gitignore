@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+.env
+data/novels/
+data/sessions/
+data/rag_storage/
+data/characters.json
+data/scenes.json
+data/temp_*.txt
+.claude/
+*.egg-info/
+dist/
+build/

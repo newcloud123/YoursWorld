@@ -1,0 +1,7 @@
+lightrag-hku
+openai
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+numpy
