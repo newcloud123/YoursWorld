@@ -5,3 +5,4 @@ uvicorn[standard]
 python-multipart
 pydantic
 numpy
+langgraph>=0.2.0

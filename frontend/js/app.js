@@ -183,6 +183,14 @@ async function startGame() {
         scene_id: sceneId,
     };
 
+    // Show loading state on button
+    const confirmBtn = document.getElementById('identity-confirm');
+    const cancelBtn = document.getElementById('identity-cancel');
+    const originalText = confirmBtn.textContent;
+    confirmBtn.disabled = true;
+    cancelBtn.disabled = true;
+    confirmBtn.innerHTML = '<span class="spinner"></span>正在进入世界...';
+
     try {
         const resp = await fetch('/game/start', {
             method: 'POST',
@@ -208,6 +216,11 @@ async function startGame() {
         }
     } catch (err) {
         alert('启动游戏失败: ' + err.message);
+    } finally {
+        // Restore button state
+        confirmBtn.disabled = false;
+        cancelBtn.disabled = false;
+        confirmBtn.textContent = originalText;
     }
 }
 

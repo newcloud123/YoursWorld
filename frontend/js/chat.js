@@ -68,11 +68,31 @@ async function sendGameMessage() {
     const message = input.value.trim();
     if (!message || !currentSessionId) return;
 
+    // Show player message immediately
+    addMessage('player', currentPlayerName, message);
     input.value = '';
 
     const sendBtn = document.getElementById('chat-send');
+
+    // Show loading state
     sendBtn.disabled = true;
-    sendBtn.textContent = '...';
+    input.disabled = true;
+    sendBtn.innerHTML = '<span class="spinner"></span>';
+
+    // Show a "thinking" placeholder
+    const thinkingId = 'thinking-' + Date.now();
+    const container = document.getElementById('chat-messages');
+    const thinkingEl = document.createElement('div');
+    thinkingEl.id = thinkingId;
+    thinkingEl.className = 'msg gm thinking';
+    thinkingEl.innerHTML = `
+        <div>
+            <div class="msg-name">GM</div>
+            <div class="msg-bubble"><span class="spinner"></span> 世界运转中...</div>
+        </div>
+    `;
+    container.appendChild(thinkingEl);
+    container.scrollTop = container.scrollHeight;
 
     try {
         const resp = await fetch(`/game/${currentSessionId}/chat`, {
@@ -80,6 +100,10 @@ async function sendGameMessage() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message }),
         });
+
+        // Remove thinking placeholder
+        const el = document.getElementById(thinkingId);
+        if (el) el.remove();
 
         if (!resp.ok) {
             throw new Error(`HTTP ${resp.status}`);
@@ -90,7 +114,7 @@ async function sendGameMessage() {
         // Render all returned messages
         (data.messages || []).forEach(msg => {
             if (msg.type === 'player') {
-                addMessage('player', msg.speaker || currentPlayerName, msg.content);
+                // Already shown above, skip duplicate
             } else if (msg.type === 'gm') {
                 if (msg.content && msg.content.includes('⚠')) {
                     addWarningMessage(msg.content);
@@ -106,10 +130,15 @@ async function sendGameMessage() {
             }
         });
     } catch (err) {
+        // Remove thinking placeholder on error too
+        const el = document.getElementById(thinkingId);
+        if (el) el.remove();
         addMessage('system', '', `发送失败：${err.message}`);
     } finally {
         sendBtn.disabled = false;
+        input.disabled = false;
         sendBtn.textContent = '行动';
+        input.focus();
     }
 }
 

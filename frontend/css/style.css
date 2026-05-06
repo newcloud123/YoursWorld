@@ -70,6 +70,45 @@ header h1 {
     background: linear-gradient(135deg, #ff7b45, #f56a38);
 }
 
+.btn.primary:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.msg.thinking .msg-bubble {
+    opacity: 0.6;
+    font-style: italic;
+}
+
+.msg.thinking .spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
 .btn.upload {
     background: #1a3a2a;
     color: #4caf50;
@@ -852,9 +891,20 @@ select.btn option {
     color: #555;
 }
 
+#chat-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 #chat-send {
     border-radius: 20px;
     padding: 10px 18px;
+    min-width: 60px;
+}
+
+#chat-send:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /* === Memory Panel === */
