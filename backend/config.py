@@ -1,7 +1,7 @@
 import os
 
 # LLM API Configuration
-LLM_API_KEY = os.getenv("LLM_API_KEY", "sk-cp-Rh2lGpsni6rcb6tCi5LK9oIuiedZtZk7np1Vi6q35EbMpnZTFr1KA3dC5Msvu-Pah1XEMnnSE0xWil551K0bGYTEEGLueR3Ja2X1fItKdQx1eg65StRGZ8s")
+LLM_API_KEY = os.getenv("LLM_API_KEY", "sk-cp-Rh2lGpsni6rcb6tCi5LK9oIdZtZk7np1Vi6q35EbMpnZTFr1KA3dC5Msvu-Pah1XEMnnSE0xWil551K0bGYTEEGLueR3Ja2X1fItKdQx1eg65StRGZ8s")
 LLM_BASE_URL = os.getenv("LLM_BASE_URL", "https://api.minimaxi.com/v1")
 LLM_MODEL = os.getenv("LLM_MODEL", "MiniMax-M2.7")
 
